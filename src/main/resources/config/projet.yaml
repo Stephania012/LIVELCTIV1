@@ -1,0 +1,10 @@
+projet:
+  kafka:
+    topics:
+      my-topic-example:
+        name: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.myTopicExample
+        partitions: 1
+    listeners:
+      autostartup: true
+      groups:
+        exemple-topic: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.myTopicExample${fullstack.kafka.listeners.suffixe}

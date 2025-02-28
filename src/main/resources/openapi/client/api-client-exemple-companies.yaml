@@ -1,0 +1,419 @@
+openapi: 3.0.1
+info:
+  title: Exemple pour simuler une API externe companies
+  description: Exemple pour simuler une API externe qui sera appelée par Fullstack
+  contact:
+    name: Bureau Technique - Architecture et Expertise Applicative
+    url: >-
+      https://recouv.sharepoint.com/sites/bureautechniquedsi-sded/SitePages/Socle-FullStack.aspx
+  version: "1.0"
+  x-backendArchimed: FULLSTACK-BE
+  x-basePathProxy: /fullstack_be/v3/api/exemples/backend_externe
+servers:
+  - url: /api/exemples/backend_externe
+  - url: /fullstack_be/v3/api/exemples/backend_externe
+security:
+  - prismeHeader: []
+tags:
+  - name: Company
+    description: Operations concernant l'objet Company
+paths:
+  /companies:
+    put:
+      tags:
+        - Company
+      summary: >-
+        Exemple d'api modifiant une company
+      operationId: EditCompany
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanyType"
+      responses:
+        "200":
+          description: Modification effectuee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyType"
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors de la recherche
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+    get:
+      tags:
+        - Company
+      summary: Rechercher parmi les companies
+      operationId: ListCompanies
+      responses:
+        "200":
+          description: Recherche effectuee
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CompanyType"
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors de la recherche
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingBloquant: "true"
+      x-throttlingTaux: "50"
+      x-circuitBreaker:
+        seuilTemps: "3000"
+        seuilScore: "30"
+        bonusSucces: "3"
+        penaliteLenteur: "3"
+        penaliteErreur: "10"
+        dureeEtatKo: "60"
+        dureeEtatHalf: "60"
+        ratioHalfOpen: "50"
+        periodeReset: "300"
+    post:
+      tags:
+        - Company
+      summary: Creer une company
+      operationId: CreerCompany
+      requestBody:
+        description: Donnees de company
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanyType"
+        required: true
+      responses:
+        "201":
+          description: Creation effectuee
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+        "400":
+          description: Erreur fonctionnelle lors de la creation
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingBloquant: "true"
+      x-throttlingTaux: "50"
+      x-circuitBreaker:
+        seuilTemps: "3000"
+        seuilScore: "30"
+        bonusSucces: "3"
+        penaliteLenteur: "3"
+        penaliteErreur: "10"
+        dureeEtatKo: "60"
+        dureeEtatHalf: "60"
+        ratioHalfOpen: "50"
+        periodeReset: "300"
+      x-codegen-request-body-name: company
+  /companies/{idCompany}:
+    delete:
+      tags:
+        - Company
+      summary: Supprimer une company
+      operationId: SupprimerCompany
+      parameters:
+        - name: idCompany
+          in: path
+          description: Identifiant de company
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Suppression effectuee
+          content: {}
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "403":
+          description: Utilisateur non habilite a supprimer les donnees de cette company
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingBloquant: "true"
+      x-throttlingTaux: "50"
+      x-circuitBreaker:
+        seuilTemps: "3000"
+        seuilScore: "30"
+        bonusSucces: "3"
+        penaliteLenteur: "3"
+        penaliteErreur: "10"
+        dureeEtatKo: "60"
+        dureeEtatHalf: "60"
+        ratioHalfOpen: "50"
+        periodeReset: "300"
+  /companies/count:
+    get:
+      tags:
+        - Company
+      summary: Compter le nombre de companies
+      operationId: CountCompanies
+      responses:
+        "200":
+          description: Denombrement effectue
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: Nombre d'entreprises'
+                format: int64
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors du denombrement
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingBloquant: "true"
+      x-throttlingTaux: "50"
+      x-circuitBreaker:
+        seuilTemps: "3000"
+        seuilScore: "30"
+        bonusSucces: "3"
+        penaliteLenteur: "3"
+        penaliteErreur: "10"
+        dureeEtatKo: "60"
+        dureeEtatHalf: "60"
+        ratioHalfOpen: "50"
+        periodeReset: "300"
+  /companies/demo_erreur_technique:
+    get:
+      tags:
+        - Company
+      summary: Lever une exception technique cliente
+      operationId: demoErreurTechniqueCompany
+      responses:
+        "200":
+          description: message
+          content:
+            application/json:
+              schema:
+                type: string
+                description: message d'erreur
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors du denombrement
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "520":
+          description: Erreur technique
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+  /companies/demo_erreur_technique_erreur_type:
+    get:
+      tags:
+        - Company
+      summary: Lever une exception technique cliente avec body ErreurType
+      operationId: demoErreurTechniqueErreurTypeCompany
+      responses:
+        "200":
+          description: Erreur type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErreurType"
+
+        "400":
+          description: Requete incorrecte
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "520":
+          description: Erreur technique
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+  /companies/demo_erreur_technique_erreur_types:
+    get:
+      tags:
+        - Company
+      summary: Lever une exception technique cliente avec body array d'ErreurType
+      operationId: demoErreurTechniqueErreurTypesCompany
+      responses:
+        "200":
+          description: Erreur types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ErreurType"
+        "400":
+          description: Requete incorrecte
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "520":
+          description: Erreur technique
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+  /companies/demo_erreur_fonctionnelle:
+    get:
+      tags:
+        - Company
+      summary: Lever une exception fonctionnelle cliente
+      operationId: demoErreurFonctionnelleCompany
+      responses:
+        "200":
+          description: message
+          content:
+            application/json:
+              schema:
+                type: string
+                description: message d'erreur
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors du denombrement
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "460":
+          description: Erreur fonctionnelle
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+  /companies/demo_erreur_fonctionnelle_erreur_type:
+    get:
+      tags:
+        - Company
+      summary: Lever une exception fonctionnelle cliente avec body ErreurType
+      operationId: demoErreurFonctionnelleErreurTypeCompany
+      responses:
+        "200":
+          description: Erreur type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErreurType"
+        "400":
+          description: Requete incorrecte
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "460":
+          description: Erreur fonctionnelle
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+  /companies/demo_erreur_fonctionnelle_erreur_types:
+    get:
+      tags:
+        - Company
+      summary: Lever une exception fonctionnelle cliente avec body array d'ErreurType
+      operationId: demoErreurFonctionnelleErreurTypesCompany
+      responses:
+        "200":
+          description: Erreur types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ErreurType"
+        "400":
+          description: Requete incorrecte
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "460":
+          description: Erreur fonctionnelle
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+components:
+  schemas:
+    ErreurType:
+      type: object
+      format: ErreurType
+    CompanyType:
+      type: object
+      properties:
+        dateCreation:
+          type: string
+          description: Date de creation
+          format: date-time
+        dateMaj:
+          type: string
+          description: Date de creation
+          format: date-time
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        siren:
+          maxLength: 9
+          minLength: 9
+          type: string
+          description: Numero SIREN de l'entreprise
+          example: "123456789"
+        name:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Denomination de la company
+          example: My company
+        activity:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Activite principale de la company
+          example: Prestations informatiques
+        naf:
+          maxLength: 4
+          minLength: 3
+          type: string
+          description: Code NAF de l'entreprise
+          example: 095A
+        dateFondation:
+          type: string
+          description: Date de fondation
+          format: date
+          example: 2017-01-01T00:00:00.000Z
+  securitySchemes:
+    prismeHeader:
+      type: apiKey
+      name: Authorization
+      in: header

@@ -1,0 +1,42 @@
+
+# Profil Spring utilisé pour les tests
+# Les éléments de connexion sont :
+# base de données en mémoire H2
+# le kafka de la machine BT
+# https://dzone.com/articles/bounty-spring-boot-and-postgresql-database
+
+server:
+  servlet:
+    context-path: /${fullstack.commons.project-name:fullstack}_be
+spring:
+  config:
+    import:
+      - config/logging/logging-demo.yaml # surcharge des propriétés de log pour le profil demo.
+      - config/logging/logging-test.yaml
+      - config/connexion-api-client/api-client-test.yml
+      - config/connexion-kafka/kafka-embedded.yaml
+      - config/projet-test.yaml
+
+  #On supprime le banner pour éviter qu'il s'affiche pendant les tests
+  main:
+    banner-mode: "off"
+
+fullstack:
+  commons:
+    project-name: livelcti
+    project-apis-version: v1
+    code-mega: LCBE
+    truststore:
+      location: ./dev/trustStoreHorsProd.jks
+      password: FSv3_C2lB!
+    private-key:
+      location: \C:\certificats\FULLSTACK-BE-PrivateKey.pem
+    public-key:
+      location: \C:\certificats\FULLSTACK-BE-PublicKey.pem
+  security:
+    gateway:
+      url: https://gateway-assemblage.gidn.recouv
+    prisme:
+      client:
+        id: FULLSTACK-BE
+        secret: FULLSTACK-BE:PassW18

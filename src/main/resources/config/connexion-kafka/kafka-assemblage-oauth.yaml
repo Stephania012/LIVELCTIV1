@@ -1,0 +1,22 @@
+# spring:
+#   kafka:
+#     #Définition de la liste des serveurs Kafka de la plateforme d'assemblage
+#     #Configuration sécurisée : #
+#     bootstrap-servers: hwi31devkfkc01momom01.gidn.recouv:9094,hwi31devkfkc01momom02.gidn.recouv:9094,hwi31dev01kfkc01zbomomtmo03.gidn.recouv:9094,hwi31dev01kfkc01zbomomtmo04.gidn.recouv:9094
+#     properties:
+#       schema.registry.url: http://hwi31dev05kafkazbomomtreg01.gidn.recouv:8081/
+#       sasl.login.callback.handler.class: io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
+#       sasl.mechanism: OAUTHBEARER
+#     streams:
+#       auto-startup: false
+#       application-id: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.exempleFilteringKstream
+
+# fullstack:
+#   kafka:
+#     oauth:
+#       valid.issuer.uri: https://gateway.urssaf.recouv
+#       jwks.endpoint.uri: https://gateway-assemblage.gidn.recouv/security/v1/pss/jwks/public
+#       token.endpoint.uri: https://gateway-assemblage.gidn.recouv/security/v1/pss/token
+#       client:
+#         id: LIVELCTI-BE
+#         secret: LIVELCTI-BE:DemoAppPass

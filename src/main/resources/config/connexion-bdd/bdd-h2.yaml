@@ -1,0 +1,28 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    read-write:
+      url: jdbc:h2:mem:fullstack
+      username:
+      password:
+      driver-class-name: org.h2.Driver
+    read-only:
+      url: jdbc:h2:mem:fullstack;ACCESS_MODE_DATA=r
+      username: pgfullstack
+      password: pg_fullstack?
+      driver-class-name: org.h2.Driver
+  flyway:
+    enabled: false
+  server:
+    port: 8080
+
+  logging:
+    level:
+      org.springframework.boot.web.embedded.tomcat: DEBUG
+

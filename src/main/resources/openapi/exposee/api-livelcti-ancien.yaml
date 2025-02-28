@@ -1,0 +1,381 @@
+openapi: 3.0.1
+info:
+  title: Livelcti - Exemple de CRUD métier
+  description: >-
+    Exemple d'API implémentant la norme REST.
+    Cette API expose les ressources de contrôles permettant de gérer le cycle de vie complet des contrôles (création, lecture, mise à jour, suppression).
+  contact:
+    name: Equipe SAUL (Socle Applicatif et Usine Logicielle)
+    email: mouadh.lamine@acoss.fr
+    url: >-
+      https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/index.html#
+  version: "1.0"
+  x-backendArchimed: LIVELCTI-BE
+  x-basePathProxy: /livelcti_be/v1
+
+externalDocs:
+  description: Norme REST
+  url: https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/normes/rest/index.html
+
+servers:
+  - url: /livelcti_be/v1
+
+security:
+  - prismeHeader: []
+
+tags:
+  - name: Controles
+    description: Gestion complète du cycle de vie des contrôles
+  - name: Entreprises
+    description: Gestion des entreprises
+
+paths:
+  /controles:
+    post:
+      tags:
+        - Controles
+      summary: Créer un nouveau contrôle
+      operationId: createControle
+      requestBody:
+        description: Données du contrôle à créer
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ControlesType"
+        required: true
+      responses:
+        "201":
+          description: Contrôle créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlesType"
+        "400":
+          description: Requête incorrecte ou erreur fonctionnelle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlesType"
+        "401":
+          description: Token d'authentification absent ou invalide
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlesType"
+        "409":
+          description: Conflit - Le contrôle existe déjà
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+
+    get:
+      tags:
+        - Controles
+      summary: Récupérer la liste des contrôles
+      operationId: getControles
+      responses:
+        "200":
+          description: Liste des contrôles récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ControlesType"
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+
+  /controles/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID du contrôle
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Controles
+      summary: Récupérer un contrôle par son ID
+      operationId: getControleById
+      responses:
+        "200":
+          description: Contrôle trouvé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlesType"
+        "404":
+          description: Contrôle non trouvé
+          content: {}
+    put:
+      tags:
+        - Controles
+      summary: Mettre à jour un contrôle
+      operationId: updateControle
+      requestBody:
+        description: Nouvelles données du contrôle
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ControlesType"
+      responses:
+        "200":
+          description: Contrôle mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ControlesType"
+        "205":
+          description: Veuillez réinitialiser
+        "404":
+          description: Contrôle non trouvé
+          content:
+            application/json:
+              schema: {}
+    delete:
+      tags:
+        - Controles
+      summary: Supprimer un contrôle
+      operationId: deleteControle
+      responses:
+        "204":
+          description: Contrôle supprimé avec succès
+        "404":
+          description: Contrôle non trouvé
+          content: {}
+
+  /entreprises:
+    post:
+      tags:
+        - Entreprises
+      summary: Créer une entreprise
+      operationId: createEntreprises
+      requestBody:
+        description: Données de l'entreprise
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EntrepriseType"
+      responses:
+        "201":
+          description: Entreprise créée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepriseType"
+        "400":
+          description: Requête incorrecte ou erreur fonctionnelle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepriseType"
+        "401":
+          description: Token d'authentification absent ou invalide
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+    get:
+      tags:
+        - Entreprises
+      summary: Récupérer la liste des entreprises
+      operationId: getEntreprises
+      responses:
+        "200":
+          description: Liste des entreprises récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EntrepriseType"
+
+  /entreprises/{id}:
+    tags:
+      - Entreprises
+    summary: Récupérer une entreprise par son ID
+    operationId: getEntrepriseById
+    parameters:
+      - name: id
+        in: path
+        description: ID de l'entreprise
+        required: true
+        schema:
+          type: integer
+    get :
+      - name: simple
+        in: query
+        description: Récupérer une entreprise par son Identifiant
+        schema:
+          type: boolean
+          default: true
+    responses:
+        "200":
+          description: Entreprise trouvée
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepriseType"
+        "404":
+          description: Entreprise introuvable
+          content: {}
+        put:
+        tags:
+          - Entreprises
+        summary: Modifier une entreprise
+        operationId: saveEntrepriseById
+        parameters:
+        - name: id
+          in: path
+          description: ID de l'entreprise
+          required: true
+          schema:
+            type: integer
+        requestBody:
+          description: "Une entreprise à modifier"
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepriseType"
+        responses:
+          "200":
+            description: Modification avec succès
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/EntrepriseType"
+          "404":
+            description: Entreprise introuvable
+            content:
+              application/json:
+                schema:
+                  type: object
+    delete:
+      tags:
+        - Entreprises
+      summary: Supprimer une entreprise
+      operationId: deleteEntrepriseById
+      parameters:
+        - name: id
+          in: path
+          description: ID de l'entreprise
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Entreprise supprimée avec succès
+        "404":
+          description: Entreprise non trouvée
+          content: {}
+
+components:
+  schemas:
+    EntrepriseType:
+      type: object
+      properties:
+        id:
+          type: integer
+        nomEntreprise:
+          type: string
+        sirenSiret:
+          type: string
+        adresseSiege:
+          type: string
+        dateDirigeant:
+          type: string
+          format: date
+        nomDirigeant:
+          type: string
+        dateNaissanceDirigeant:
+          type: string
+          format: date
+        commentaireSociete:
+          type: string
+        dateDebut:
+          type: string
+          format: date
+        archive:
+          type: boolean
+        individus:
+          type: string
+        inspecteur:
+          type: string
+    ControlesType:
+      type: object
+      required:
+        - id
+        - idControle
+        - nomControle
+        - etat
+        - dtHrDebutControle
+        - lieuControle
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique du contrôle
+          format: int64
+          example: 1
+        idControle:
+          type: string
+          description: Identifiant métier du contrôle
+          example: "CTR-2024-001"
+        nomControle:
+          type: string
+          description: Nom du contrôle
+          example: "Contrôle annuel société XYZ"
+        etat:
+          type: string
+          description: État actuel du contrôle
+          enum:
+            - initie
+            - en_cours
+            - termine
+            - annule
+          example: "initie"
+        dtHrDebutControle:
+          type: string
+          format: date-time
+          description: Date et heure de début du contrôle
+          example: "2024-03-20T09:00:00Z"
+        dtHrFinControle:
+          type: string
+          format: date-time
+          description: Date et heure de fin du contrôle
+          example: "2024-03-20T17:00:00Z"
+        lieuControle:
+          type: string
+          description: Lieu où se déroule le contrôle
+          example: "Paris"
+        admin:
+          type: string
+          description: Administrateur responsable du contrôle
+          example: "Jean Dupont"
+        inspecteursControle:
+          type: array
+          description: Liste des inspecteurs assignés au contrôle
+          items:
+            type: string
+          example: ["Inspector1", "Inspector2"]
+        partenairesControle:
+          type: array
+          description: Liste des IDs des partenaires impliqués
+          items:
+            type: integer
+            format: int64
+          example: [1, 2, 3]
+        autrePartenaires:
+          type: string
+          description: Autres partenaires non référencés
+          example: "Police municipale"
+  securitySchemes:
+    prismeHeader:
+      type: apiKey
+      name: Authorization
+      in: header

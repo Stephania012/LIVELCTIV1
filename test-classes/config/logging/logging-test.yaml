@@ -1,0 +1,7 @@
+#On supprime le banner pour éviter qu'il s'affiche pendant les tests
+spring:
+  main:
+    banner-mode: 'off'
+  config:
+    import:
+      - classpath:config/logging-default-properties.yaml

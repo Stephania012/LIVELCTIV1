@@ -1,0 +1,120 @@
+openapi: 3.0.1
+info:
+  title: Livelcti Observability
+  description: >-
+    Endpoint des actuators. Ce contrat n'est pas traité par le générateur
+    d'interface REST (Swagger/OpenAPI).
+  version: "1.0"
+  contact:
+    name: Equipe Livelcti
+    email: mouadh.lamine@acoss.fr
+    url: >-
+      https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/index.html#
+  x-backendArchimed: LIVELCTI-BE
+  x-basePathProxy: /livelcti_be/v1/technique
+servers:
+  - url: /livelcti_be/v1
+    description: Generated server url
+tags:
+  - name: Actuator
+    description: Monitor and interact
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
+paths:
+  /lb:
+    get:
+      tags:
+        - load-balancer-endpoint
+        - archimed-non-securise
+      summary: Exposition du endpoint LB
+      operationId: lbEndpoint
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+      x-typeAction: Consultation
+  /actuator:
+    get:
+      tags:
+        - Actuator
+        - archimed-non-securise
+      summary: Actuator root web endpoint
+      operationId: actuator-links
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: "#/components/schemas/Link"
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: "#/components/schemas/Link"
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: "#/components/schemas/Link"
+      x-typeAction: Consultation
+  /actuator/prometheus:
+    get:
+      tags:
+        - Actuator
+        - archimed-non-securise
+      summary: Actuator web endpoint 'prometheus'
+      operationId: prometheus
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain;version=0.0.4;charset=utf-8:
+              schema:
+                type: object
+            application/openmetrics-text;version=1.0.0;charset=utf-8:
+              schema:
+                type: object
+      x-typeAction: Consultation
+  /actuator/health:
+    get:
+      tags:
+        - Actuator
+        - archimed-non-securise
+      summary: Actuator web endpoint 'health'
+      operationId: health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+      x-typeAction: Consultation
+components:
+  schemas:
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        templated:
+          type: boolean

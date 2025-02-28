@@ -1,0 +1,15 @@
+projet:
+  kafka:
+    topics:
+      my-topic-example:
+        name: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.myTopicExample
+        partitions: 3
+    listeners:
+      autostartup: false
+      groups:
+        exemple-topic: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.myTopicExample${fullstack.kafka.listeners.suffixe}
+
+fullstack:
+  kafka:
+    #Permet de spécifier un préfixe au nom des topics et consommateurs Kafka. Par convention il faut terminer le prefixe par "."
+    prefixe-couloir: "JU-${user.name}."

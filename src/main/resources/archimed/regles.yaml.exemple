@@ -1,0 +1,33 @@
+id: "Policy_LIVELCTI-BE_v1.7"
+description: "Policy pour LIVELCTI-BE"
+target:
+- type: "TARGET_RESOURCE_TYPE"
+  values:
+  - "LIVELCTI-BE"
+allow:
+- id: "permit_for_LIVELCTI-BE_LECTURE"
+  match:
+  - type: "SCOPES_RESOURCE_TYPE"
+    values:
+    - "LIVELCTI-BE"
+  - type: "ANAIS_HAB_SUBJECT"
+    values:
+    - "LCBE:UTILISATION"
+    - "LCBE:EXPLOITATION"
+  result:
+  - type: "SCOPE_AT_JWT_CLAIM_RESULT_ATTRB"
+    values:
+    - "DEFAULT:LIVELCTI-BE:LECTURE"
+- id: "permit_for_LIVELCTI-BE_HELLO_GET"
+  match:
+  - type: "OPERATION_ID_RESOURCE_TYPE"
+    values:
+    - "helloEndpoint"
+  - type: "VERB_HTTP_ACTION"
+    values:
+    - "GET"
+  - type: "SCOPE_AT_JWT_SUBJECT"
+    values:
+    - "DEFAULT:LIVELCTI-BE:LECTURE"
+deny:
+- id: "deny_for_ARCHIMED-SAMPLE"

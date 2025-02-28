@@ -1,0 +1,31 @@
+          __         __       __       _                  _        __       _ _     _             _           ____
+         /_/        /_/      /_/      | |                (_)      / _|     | | |   | |           | |         |___ \
+   __ _  ___ _ __   ___ _ __ ___    __| | ___ _ __  _   _ _ ___  | |_ _   _| | |___| |_ __ _  ___| | __ __   ____) |
+  / _` |/ _ \ '_ \ / _ \ '__/ _ \  / _` |/ _ \ '_ \| | | | / __| |  _| | | | | / __| __/ _` |/ __| |/ / \ \ / /__ <
+ | (_| |  __/ | | |  __/ | |  __/ | (_| |  __/ |_) | |_| | \__ \ | | | |_| | | \__ \ || (_| | (__|   <   \ V /___) |
+  \__, |\___|_| |_|\___|_|  \___|  \__,_|\___| .__/ \__,_|_|___/ |_|  \__,_|_|_|___/\__\__,_|\___|_|\_\   \_/|____/
+   __/ |                                     | |
+  |___/
+  
+ Plus d'info sur :        http://gitlab.altair.recouv/sded/bureau-technique/architecture-expertise-applicative/FullStack
+ 
+ Veuillez ne pas supprimer les éléments ci-dessous. Ils permettent une résolution plus aisée en cas de problème sur FullStack
+
+ Basé sur Spring Boot :   ${spring-boot.version}
+ 
+ Cors Actif : ${fullstack.security.envoi-entete-cors}
+ 
+ URL BDD : ${spring.datasource.url}
+ 
+ projet.version: ${projet.version}
+ 
+ Profils Spring actif : ${spring.profiles.active}      (/!\ pas de demo en production)
+ 
+ Configuration des principaux loggers :
+  - ROOT : ${logging.level.ROOT}
+  - fr.urssaf : ${logging.level.fr.urssaf}
+  - fr.recouv.securite : ${logging.level.fr.recouv.securite}
+  - org.hibernate.SQL : ${logging.level.org.hibernate.SQL}
+  - KafkaRecordInterceptor : ${logging.level.fr.urssaf.fullstack.kafka.core.KafkaRecordInterceptor}
+  - RequestLoggingFilterConfiguration : ${logging.level.fr.urssaf.fullstack.commons.autoconfigure.logging.RequestLoggingFilterConfiguration}
+ __________________________________________

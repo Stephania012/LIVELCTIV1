@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: '@profil.spring.from.pom@' # cette valeur est remplacée par la properties maven profil.spring.from.pom
+  config:
+    import:
+      - config/logging-default-properties.yaml
+  # Configuration DevTools
+  devtools:
+    restart:
+      enabled: true
+      trigger-file: .reloadtrigger
+    livereload:
+      enabled: true
+
+projet.version: '@project.version@'
+
+fullstack:
+  commons:
+    project-name: livelcti
+    project-apis-version: v1
+    code-mega: LCBE
+    truststore:
+      location: ./dev/trustStoreHorsProd.jks
+      password: FSv3_C2lB!
+    private-key:
+      location: \C:\certificats\LIVELCTI-BE-PrivateKey.pem
+    public-key:
+      location: \C:\certificats\LIVELCTI-BE-PublicKey.pem
+  security:
+    gateway:
+      url: https://gateway-assemblage.gidn.recouv
+    prisme:
+      actif: false # true pour activer Prisme
+      client:
+        id: LIVELCTI-BE
+        secret: LIVELCTI-BE:PassW18

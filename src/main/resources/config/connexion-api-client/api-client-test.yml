@@ -1,0 +1,28 @@
+# Contient la configuration pour utiliser des API externes
+# L'extention du fichier est en .yml pour l'ignorer lors de la génération de projet et du renommage de terme Fullstack
+api-client:
+  max-attempts: 3
+  backoff-delay: 100
+  statuts-retryable:
+    # Internal Server Error
+    - 500
+    # Service Unavailable
+    - 503
+    # Erreur technique
+    - 520
+  timeout: 5000
+  # Permet d'activer ou non les logs sur les requests et les response (false si non définit)
+  activate-logs: false
+  api-configurations:
+    # Exemple de configuration d'une api externe à Fullstack nommée "api-externe"
+    # Voir fr.urssaf.fullstack.apiclient.ApiClientConfiguration pour plus de détails sur l'API
+    api-externe:
+      # Permet d'activer la sécurisation de l'appel à l'API avec Prisme. Optionel false si non définit
+      securisation-prisme: false
+      # URL de base de l'API
+      url-api: http://localhost:8080/fullstack_be/${fullstack.commons.project-apis-version:v1}/api/exemples/backend_externe/
+      # Scope Prisme à utiliser dans le jeton pour l'appel à l'API
+      scope-prisme: '*:FULLSTACK-BE'
+    # Exemple de configuration pour une autre API
+    test-api:
+      url-api: http://test.fr

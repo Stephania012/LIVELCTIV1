@@ -1,0 +1,30 @@
+# # Propriété de moveToKafka
+# spring:
+#   kafka:
+#     # Adresses des brokers kafka. Pour une configuration autre que localHost, penser à configurer le brokers correctement
+#     # (voir https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/)
+#     # Ici cette valeur sera définie automatiquement par le Kafka Embedded lors de son initialisation
+#     bootstrap-servers:
+#       - ${spring.embedded.kafka.brokers}
+#     properties:
+#       # Url du registre des schémas ici la registry est mockée c'est valeur n'est pas utilisée mais doit être renseignée
+#       schema.registry.url: http://localhost:8081
+#       security.protocol: PLAINTEXT
+#       # Liste des topics à initialiser dans le Kafka embedded correspond aux topics de l'application à tester
+#       # Pour chaque topic on doit aussi définir la liste des schémas Avro associés.
+#       # Ces schémas seront initialisés dans le mock de la registry Avro
+#       ssl.truststore.location: ./dev/trustStoreHorsProd.jks
+#       ssl.truststore.password: FSv3_C2lB!
+#       sasl.mechanism: PLAIN
+#       # sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="kafka" password="-F*FsEStBh4oi:" ;
+#       # Url du registre des schémas
+#     streams:
+#       auto-startup: false
+#       application-id: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.exempleFilteringKstream
+#       bootstrap-servers:
+#         -  ${spring.embedded.kafka.brokers}    
+#     embedded-topics:
+#       my-topic-example:
+#         topic-name: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.myTopicExample
+#         topic-schemas:
+#           - Schema.Type.STRING

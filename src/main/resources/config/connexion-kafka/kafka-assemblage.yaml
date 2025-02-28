@@ -1,0 +1,16 @@
+# spring:
+#   kafka:
+#     #Définition de la liste des serveurs Kafka de la plateforme d'assemblage
+#     #Configuration sécurisée : #
+#     bootstrap-servers: hwi31devkfkc01momom01.gidn.recouv:9091,hwi31devkfkc01momom02.gidn.recouv:9091,hwi31dev01kfkc01zbomomtmo03.gidn.recouv:9091,hwi31dev01kfkc01zbomomtmo04.gidn.recouv:9091
+#     properties:
+#       ssl.truststore.location: ./dev/trustStoreHorsProd.jks
+#       ssl.truststore.password: FSv3_C2lB!
+#       security.protocol: SASL_SSL
+#       sasl.mechanism: PLAIN
+#       sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="kafka" password="-F*FsEStBh4oi:" ;
+#       # Url du registre des schémas
+#       schema.registry.url: http://hwi31devkfkc01moreg.gidn.recouv:8081/
+#     streams:
+#       auto-startup: false
+#       application-id: ${fullstack.kafka.prefixe-couloir}.${fullstack.kafka.systeme-porteur}.exempleFilteringKstream

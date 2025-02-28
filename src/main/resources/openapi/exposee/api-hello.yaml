@@ -1,0 +1,50 @@
+openapi: 3.0.1
+info:
+  title: Livelcti - API Hello
+  description: Contrat pour des endpoints permettant de tester le bon déploiement de l'application et de récupérer des informations concernant l'utilisateur connecté
+  contact:
+    name: Equipe SAUL (Socle Applicatif et Usine Logicielle)
+    email: mouadh.lamine@acoss.fr
+    url: https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/index.html#
+  version: "1.0"
+  x-backendArchimed: LIVELCTI-BE
+  x-basePathProxy: /livelcti_be/v1/api/hello/v1
+servers:
+  - url: /api/hello/v1
+  - url: /livelcti_be/v1/api/hello/v1
+security:
+  - prismeHeader: []
+paths:
+  /hello:
+    get:
+      summary: Tester le bon déploiement de l'application, et récupérer l'id de corrélation et le nom de l'utilisateur connecté
+      operationId: helloEndpoint
+      responses:
+        "200":
+          description: Test effectue
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Hello Ressource OK.
+                  recouv.id = Id-928073622908bcaea45a0e99,
+                  utilisateur intranet = AC750G5000@cn=USR_READ_NAT_APP_LCBE,ou=LCBE,ou=Applications,ou=Technique,dc=recouv,
+                  utilisateur internet = null,
+                  L'utilisateur est 'anonyme' lorsque que le filtre prisme n'est pas actif.
+                  Le filtre est activable via la clé de configuration 'fullstack.security.prisme.actif'
+        "400":
+          description: Requete incorrecte
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+components:
+  securitySchemes:
+    prismeHeader:
+      type: apiKey
+      name: Authorization
+      in: header

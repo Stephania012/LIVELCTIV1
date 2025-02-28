@@ -1,0 +1,382 @@
+openapi: 3.0.1
+info:
+  title: Livelcti - Exemple technique
+  description: >-
+    Ensemble d'exemples techniques sur l'historisation des objets en BDD, upload
+    de fichiers, etc...
+  contact:
+    name: Equipe SAUL (Socle Applicatif et Usine Logicielle)
+    email: mouadh.lamine@acoss.fr
+    url: >-
+      https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/index.html#
+  version: "1.0"
+  x-backendArchimed: FULLSTACK-BE
+  x-basePathProxy: /fullstack_be/v3/api/exemples/technique
+servers:
+  - url: /api/exemples/technique
+  - url: /fullstack_be/v3/api/exemples/technique
+security:
+  - prismeHeader: []
+tags:
+  - name: Remote entreprises
+    description: >-
+      Operations contenant les entreprises de l'API cliente CompanyApi.
+      Pour plus d’information consultez la page [Appeler une API de manière sécurisée](https://readthedocs.cnp.recouv/docs/fullstack/fr/latest/fullstack/fullstack-rest-backend/plusloin/appels_backend_a_backend.html)
+paths:
+  /remote_entreprises:
+    get:
+      tags:
+        - Remote entreprises
+      summary: >-
+        Exemple d'api faisant des appels à une api externe à l'application :
+        rechercher les remote entreprises
+      operationId: RechercherRemoteEntreprises
+      responses:
+        "200":
+          description: Recherche effectuee
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EntrepriseType"
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors de la recherche
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+    put:
+      tags:
+        - Remote entreprises
+      summary: >-
+        Exemple d'api faisant des appels à une api externe à l'application :
+        modifier une remote entreprises
+      operationId: ModifierRemoteEntreprise
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EntrepriseType"
+      responses:
+        "200":
+          description: Modification effectuee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntrepriseType"
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors de la recherche
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+    post:
+      tags:
+        - Remote entreprises
+      summary: Creer une remote entreprise
+      operationId: CreerRemoteEntreprise
+      requestBody:
+        description: Donnees de company
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EntrepriseType"
+        required: true
+      responses:
+        "201":
+          description: Creation effectuee
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+        "400":
+          description: Erreur fonctionnelle lors de la creation
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+      x-codegen-request-body-name: entreprise
+  /remote_entreprises/count:
+    get:
+      tags:
+        - Remote entreprises
+      summary: >-
+        Exemple d'api faisant des appels à une api externe à l'application :
+        compter le nombre d'entreprises en utilisant l'API cliente CompanyApi
+      operationId: DenombrerRemoteEntreprises
+      responses:
+        "200":
+          description: Denombrement effectue
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: Nombre de remote entreprises'
+                format: int64
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors du denombrement
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Consultation
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+  /remote_entreprises/{idRemoteEntreprise}:
+    delete:
+      tags:
+        - Remote entreprises
+      summary: Supprimer une remote entreprise
+      operationId: SupprimerRemoteEntreprise
+      parameters:
+        - name: idRemoteEntreprise
+          in: path
+          description: Identifiant du remote entreprise
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Suppression effectuee
+          content: {}
+        "400":
+          description: Requete incorrecte ou erreur fonctionnelle lors de la recuperation
+          content: {}
+        "401":
+          description: Token d'authentification absent ou invalide
+          content: {}
+        "403":
+          description: >-
+            Utilisateur non habilité a récupérer les données de cette remote
+            entreprise
+          content: {}
+      x-criticite: Normal
+      x-typeAction: Maj
+      x-throttlingTaux: "0"
+      x-throttlingBloquant: "false"
+components:
+  schemas:
+    EntrepriseType:
+      type: object
+      properties:
+        dateCreation:
+          type: string
+          description: Date de creation
+          format: date-time
+        dateMaj:
+          type: string
+          description: Date de creation
+          format: date-time
+        utilisateur:
+          type: string
+          description: Dernier utilisateur a avoir mis a jour une table de donnees
+          example: AC750G5000
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        siren:
+          maxLength: 9
+          minLength: 9
+          type: string
+          description: Numéro SIREN de l'entreprise
+          example: "123456789"
+        denomination:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Denomination de l'entreprise
+          example: Mon entreprise
+        activite:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Activite principale de l'entreprise
+          example: Prestations informatiques
+        naf:
+          maxLength: 4
+          minLength: 3
+          type: string
+          description: Code NAF de l'entreprise
+          example: 095A
+        dateFondation:
+          type: string
+          description: Date de fondation
+          format: date
+          example: 2017-01-01T00:00:00.000Z
+        activerSuivi:
+          type: boolean
+          description: True si la création de l'entreprise nécessite un suivi particulier
+        adresses:
+          type: array
+          description: Adresses de l'entreprise
+          items:
+            $ref: "#/components/schemas/AdresseType"
+          x-annotations: "  @JsonInclude(JsonInclude.Include.NON_NULL)"
+        attestations:
+          type: array
+          description: Attestations de l'entreprise
+          items:
+            $ref: "#/components/schemas/AttestationType"
+          x-annotations: "  @JsonInclude(JsonInclude.Include.NON_NULL)"
+    AgentType:
+      type: object
+      properties:
+        dateCreation:
+          type: string
+          description: Date de creation
+          format: date-time
+        dateMaj:
+          type: string
+          description: Date de creation
+          format: date-time
+        id:
+          type: integer
+          description: Identifiant de l'agent
+          format: int64
+          example: 1
+        nom:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Nom de l'agent
+          example: Choufleur
+        prenom:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Prénom de l'agent
+          example: CLaudia
+        codeOrganisme:
+          maxLength: 4
+          minLength: 2
+          type: string
+          description: Code de l'organisme
+          example: "0213"
+    AdresseType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        dateMaj:
+          type: string
+          description: Date de creation
+          format: date-time
+        utilisateur:
+          type: string
+          description: Dernier utilisateur a avoir mis a jour une table de donnees
+          example: AC750G5000
+        ligne1:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Premiere ligne de l'adresse
+          example: Immeuble le president
+        ligne2:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Seconde ligne de l'adresse
+          example: 36 rue de Valmy
+        commune:
+          $ref: "#/components/schemas/CommuneType"
+    CommuneType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de la commune
+          format: int64
+          example: 1
+        cp:
+          maxLength: 5
+          minLength: 5
+          type: string
+          description: Code Postal
+          example: "93108"
+        nom:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: Nom
+          example: Montreuil
+    AttestationType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'adresse
+          format: int64
+          example: 1
+        dateMaj:
+          type: string
+          description: Date de creation
+          format: date-time
+        utilisateur:
+          type: string
+          description: Dernier utilisateur a avoir mis a jour une table de donnees
+          example: AC750G5000
+        nom:
+          maxLength: 128
+          minLength: 1
+          type: string
+          description: nom du fichier importé
+    AttestationFormulaireType:
+      type: object
+      properties:
+        source:
+          type: string
+          example: administration de l'état
+        verifiee:
+          type: boolean
+          description: vérification de l'authenticité de l'attestation
+    SuiviCreationEntrepriseErreurType:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Identifiant de l'erreur
+          format: int64
+          example: 1
+        dateCreation:
+          type: string
+          description: Date de creation
+          format: date-time
+        exceptionMessage:
+          type: string
+          description: Le message d'erreur
+        activite:
+          type: string
+          description: l'activité de l'entreprise
+        denomination:
+          type: string
+          description: la dénomination de l'entreprise
+        siren:
+          type: string
+          description: le siren de l'entreprise
+  securitySchemes:
+    prismeHeader:
+      type: apiKey
+      name: Authorization
+      in: header

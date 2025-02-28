@@ -1,0 +1,62 @@
+
+# Il s'agit de la configuration utilisée pour la génération d'un livrable SX
+# Les éléments de connexion sont définis à travers des variables Castor
+# Reportez-vous au document ./doc/gestion_des_profils_maven_spring.md pour plus d'informations sur la gestion des profils
+# Ou à la fiche https://recouv.sharepoint.com/sites/bureautechniquedsi-sded/_layouts/OneNote.aspx?id=%2Fsites%2Fbureautechniquedsi-sded%2FSiteAssets%2FBloc-notes%20de%20Bureau%20technique%20%28DSI%20-%20SDED%29&wd=target%28Fiches%20en%20cours%20d%27%C3%A9laboration.one%7CDC11F2DE-388E-4607-86AF-A916A9333363%2FCI%5C%2FCD%20Containers%20SX%20env%20de%20DEV%7C3D02B9D0-0CE9-4523-AA48-CB5165386D2C%2F%29
+spring:
+  config:
+    import:
+    #   - config/projet.yaml
+      - config/logging-default-properties.yaml # Initialisation des propriétés de log. C'est obligatoire pour tracer les messages de log.
+      - config/connexion-bdd/bdd-pfs.yaml
+
+
+
+--- #Cette séparation permet aux propriétés ci-dessous de surcharger les propriétés déclarées dans les fichiers ci-dessus
+spring:
+  kafka:
+    properties:
+      #Définition du type d'authentification à Kafka
+      sasl.login.callback.handler.class: io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
+
+
+
+fullstack:
+  commons:
+    truststore:
+      location: /conf/security/magasin-certificats-LIVELCTI-BE.jks
+      #password: a définir dans vault
+    private-key:
+      location: /conf/security/livelcti-be-PrivateKey.pem
+    public-key:
+      location: /conf/security/livelcti-be-PublicKey.pem
+
+  security:
+    prisme:
+      client:
+        id: LIVELCTI-BE
+        # secret: A définir dans vault
+
+
+  kafka:
+    oauth:
+      valid.issuer.uri: ${fullstack.security.prisme.iss}
+      jwks.endpoint.uri: ${fullstack.security.prisme.urls.publickeys}
+      token.endpoint.uri: ${fullstack.security.prisme.urls.token}
+      client:
+        id: ${fullstack.security.prisme.client.id}
+        secret: ${fullstack.security.prisme.client.secret}
+      ssl:
+        truststore:
+          location: ${fullstack.commons.truststore.location}
+          password: ${fullstack.commons.truststore.password}
+
+--- #Cette séparation permet aux propriétés ci-dessous de surcharger les propriétés déclarées dans les fichiers ci-dessus
+
+spring:
+  config:
+    import:
+      # Externalisation de quelques propriétés de l'application dans le fichier environnement.yaml créé à partir du fichier values.yaml du chart HELM.
+      # Le fichier environnement.yaml contient les propriétés se trouvant sous la racine backendExemples.appProperties du fichier values.yaml.
+      - file:/config/environnement.yaml
+

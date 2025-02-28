@@ -1,0 +1,40 @@
+spring:
+  config:
+    import:
+      - "config/logging/logging-demo.yaml"
+      - "config/connexion-bdd/bdd-h2.yaml"
+      - "config/connexion-api-client/api-client-demo.yml"
+      - "config/connexion-kafka/kafka-assemblage.yaml"
+      - "config/projet.yaml"
+fullstack:
+  commons:
+    project-name: "livelcti"
+    project-apis-version: "v1"
+    code-mega: "LCBE"
+    truststore:
+      location: "./dev/trustStoreHorsProd.jks"
+      password: "FSv3_C2lB!"
+    private-key:
+      location: "\\C:\\certificats\\LIVELCTI-BE-PrivateKey.pem"
+    public-key:
+      location: "\\C:\\certificats\\LIVELCTI-BE-PublicKey.pem"
+    cors:
+      envoi-entetes: true
+      allowed-origin-patterns:
+        - "*localhost:4200"
+  security:
+    gateway:
+      url: "https://gateway-assemblage.gidn.recouv"
+    prisme:
+      actif: false
+      client:
+        id: "LIVELCTI-BE"
+        secret: "LIVELCTI-BE:DemoAppPass"
+jmx:
+  enable: false
+
+---
+fullstack:
+  kafka:
+    prefixe-couloir: "dev01"
+

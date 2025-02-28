@@ -1,0 +1,12 @@
+# Ces valeurs sont en lien avec logback et le fichier logback-spring.xml
+# Ces valeurs surchargent les valeurs par défaut du fichier logging-default-properties de la librairie fulltscak-commons-starter
+logging:
+  # Configurer les niveaux de log
+  # Dans le profil demo, on met l'application en mode plus verbeux
+  level:
+    fr.recouv.securite: INFO
+    org.hibernate.SQL: DEBUG # pour tracer les requêtes sql
+    fr.urssaf.fullstack.commons.autoconfigure.exception.ExceptionControllerAdvice: INFO # Permet de tracer les erreurs (INFO pour les erreurs fonctionnelles, WARN pour les erreurs techniques gérées, ERROR pour les erreurs techniques imprévues)
+    fr.urssaf.infrastructure.apiclient.ApiClientErrorHandler: INFO # Permet de tracer les erreurs des API client (INFO pour les erreurs fonctionnelles, WARN pour les erreurs techniques gérées, ERROR pour les erreurs techniques imprévues, TRACE pour tracer les body)
+    org.apache.kafka.streams: INFO # Permet de tracer l'état du stream et les configs au démarrage
+    org.apache.kafka.streams.processor.internals.StreamThread: INFO # Permet de tracer l'activité des StreamThread qui se comportent comme des Kafka Consumer

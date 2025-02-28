@@ -1,0 +1,23 @@
+spring:
+  multi-datasource: false
+  datasource:
+    url: jdbc:postgresql://${DB_ADDR}:${DB_PORT}/${DB_DATABASE}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    
+  flyway:
+    # Activation de Flyway pour la gestion des migrations de la base de données
+    enabled: true
+    # Création du schéma de la base de données par l'application
+    create-schemas: true
+    # Schéma par défaut ciblé par les scripts de migration
+    default-schema: ${fullstack.commons.project-name}
+    # La statégie baseline-on-migrate permet d'enregistrer dans la table d'historique le schéma courant de la base de donnée en tant que version V1 qui servira
+    # de base de départ pour les prochaines migrations. C'est utile lorsqu'on veut intégrer Flyway dans une application en cours de route tout en récupérant le schéma de données existant.
+    # À désactiver lorsque le schéma de données est créé par l'application
+    baseline-on-migrate: false
+
+# Tracer l'exécution des scripts de migration de la base de données
+#logging.level.org.flywaydb: DEBUG
+
